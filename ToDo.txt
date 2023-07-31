@@ -1,0 +1,11 @@
+ToDo:
+
+Go back into site plan out better steps
+break down into smaller tasks and work through it
+
+timers 
+cpu timing to get 500 cycle
+cpu execute opcode
+getting opcode in a safe way
+taking input from PC
+opcode break down from guide x y n 
