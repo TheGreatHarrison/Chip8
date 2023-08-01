@@ -27,12 +27,23 @@ int cpu_init(struct cpu* cpu, char* filename)
 
 void cpu_fetch(struct cpu* cpu)
 {
-    uint16_t instruction = cpu->memory[cpu->pc] << 8 | cpu->memory[cpu->pc + 1];;
+    cpu->opcode.instruction = cpu->memory[cpu->pc] << 8 | cpu->memory[cpu->pc + 1];
     cpu->pc += 2;
 }
+
 void cpu_execute(struct cpu* cpu)
 {
-    // do all op codes here
+    uint8_t vy = cpu->v[cpu->opcode.y];
+    uint8_t vx = cpu->v[cpu->opcode.x];
+    switch (cpu->opcode.op)
+    {
+    case 0x0:
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
 }
 
 void cpu_cycle(struct cpu* cpu)

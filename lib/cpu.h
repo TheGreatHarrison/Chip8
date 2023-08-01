@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include "lib/opcode.h"
 
 #define MEMORY_SIZE 4096
 #define PC_START 0x200
@@ -33,6 +34,9 @@ struct cpu
 
     uint8_t delay_timer;
     uint8_t sound;
+
+    uint16_t instruction;
+    union opcode opcode;
 
 };
 
