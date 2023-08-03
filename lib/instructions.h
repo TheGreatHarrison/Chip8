@@ -4,6 +4,8 @@
 #include "cpu.h"
 
 void clearDisplay(struct cpu* cpu);
-void jump(cpu);
+void jump(struct cpu* cpu);
 void setRegister(struct cpu* cpu, uint8_t registerIndex, uint8_t value);
-void setRegister(struct cpu* cpu, uint16_t Ivalue);
+void setIRegister(struct cpu* cpu, uint16_t Ivalue);
+void display(struct cpu* cpu);
+

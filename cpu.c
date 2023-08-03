@@ -61,7 +61,10 @@ void cpuExecute(struct cpu* cpu)
         setRegister(cpu, cpu->opcode.x, vx + cpu->opcode.nn);
         break;
     case 0xA:
-        setRegister(cpu, cpu->opcode.address)
+        setIRegister(cpu, cpu->opcode.address);
+        break;
+    case 0xD:
+        display(cpu);
         break;
     default:
         break;
