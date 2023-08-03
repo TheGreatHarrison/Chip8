@@ -51,7 +51,18 @@ void cpuExecute(struct cpu* cpu)
             break;
         }
         break;
-    
+    case 0x1: // Jump to address 1NNN
+        jump(cpu);
+        break;
+    case 0x6: // Set the register VX to the value NN
+        setRegister(cpu, cpu->opcode.x, cpu->opcode.nn);
+        break;
+    case 0x7: // Add the value NN to VX
+        setRegister(cpu, cpu->opcode.x, vx + cpu->opcode.nn);
+        break;
+    case 0xA:
+        setRegister(cpu, cpu->opcode.address)
+        break;
     default:
         break;
     }
