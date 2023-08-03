@@ -1,9 +1,18 @@
 #pragma once
+
+#include "opcode.h"
 #include <SDL2/SDL.h>
-#include "lib/opcode.h"
+
 
 #define MEMORY_SIZE 4096
 #define PC_START 0x200
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
+#define ON_COLOR = 0xFFFFFFFF
+#define OFF_COLOR = 0xFF000000
+
 
 static const uint8_t font[80] = {
   0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
@@ -32,15 +41,21 @@ struct cpu
     uint16_t stack[16];
     uint8_t v[16];
 
-    uint8_t delay_timer;
+    uint8_t delayTimer;
     uint8_t sound;
+
+    uint8_t updateDisplay;
 
     uint16_t instruction;
     union opcode opcode;
 
+    uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT];
+
 };
 
-int cpu_init(struct cpu* cpu, char* filename);
-void cpu_fetch(struct cpu* cpu);
-void cpu_execute(struct cpu* cpu);
-void cpu_cycle(struct cpu* cpu);
+// cpu things
+int cpuInit(struct cpu* cpu, char* filename);
+void cpuFetch(struct cpu* cpu);
+void cpuExecute(struct cpu* cpu);
+void cpuCycle(struct cpu* cpu);
+

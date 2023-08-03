@@ -6,30 +6,31 @@
 #include "lib/display.h"
 #include <stdint.h>
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-
 
 int main(void) {
 
     // Display init
     struct display display;
-    uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT];
     int running = 1;
 
     // Initialize the display
-    if (display_init(&display) != 0) {
+    if (display_init(&display) != 0) 
+    {
         return 1;
     }
 
     // CPU int
     struct cpu cpu;
+    if (cpuInit(&cpu, file) != 0)
+    {
+        return 1; // cpu init failed
+    }
 
 
     while (running) 
     {
 
-        cpu_cycle(&cpu);
+        cpuCycle(&cpu);
 
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -38,7 +39,11 @@ int main(void) {
             }
         }
 
-        display_draw(&display, pixels);
+        if (cpu.updateDisplay)
+        {
+            display_draw(&display, cpu.pixels);
+            cpu.updateDisplay = 0;
+        }
     }
 
     // Clean up and exit

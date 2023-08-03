@@ -1,9 +1,9 @@
 CC = gcc
-CFLAGS = -Wextra -pedantic -std=c99 -I /opt/homebrew/Cellar/sdl2/2.28.1/include/
+CFLAGS = -Wextra -pedantic -std=c11 -I/opt/homebrew/Cellar/sdl2/2.28.1/include/ -I./lib
 
 LDFLAGS = -L /opt/homebrew/Cellar/sdl2/2.28.1/lib -lSDL2
 
-SRC = main.c display.c cpu.c
+SRC = main.c display.c cpu.c instructions.c
 OBJ = $(SRC:.c=.o)
 EXECUTABLE = chip8
 

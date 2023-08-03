@@ -1,7 +1,8 @@
-#include "lib/cpu.h"
+#include "cpu.h"
+#include "instructions.h"
 
 
-int cpu_init(struct cpu* cpu, char* filename)
+int cpuInit(struct cpu* cpu, char* filename)
 {
     FILE* rom = fopen(filename, "rb");
     if (!rom) 
@@ -15,30 +16,40 @@ int cpu_init(struct cpu* cpu, char* filename)
     memcpy(cpu->memory, font, sizeof(font));
     memset(cpu->stack, 0, sizeof(cpu->stack));
     memset(cpu->v, 0, sizeof(cpu->v));
+    memset(cpu->pixels, OFF_COLOR, sizeof(cpu->pixels));
 
     cpu->pc = PC_START;
     cpu->i = 0;
-    cpu->delay_timer = 0;
+    cpu->delayTimer = 0;
     cpu->sound = 0;
+    cpu->updateDisplay = 0;
+    
 
     return 0;
 
 }
 
-void cpu_fetch(struct cpu* cpu)
+void cpuFetch(struct cpu* cpu)
 {
     cpu->opcode.instruction = cpu->memory[cpu->pc] << 8 | cpu->memory[cpu->pc + 1];
     cpu->pc += 2;
 }
 
-void cpu_execute(struct cpu* cpu)
+void cpuExecute(struct cpu* cpu)
 {
     uint8_t vy = cpu->v[cpu->opcode.y];
     uint8_t vx = cpu->v[cpu->opcode.x];
-    switch (cpu->opcode.op)
+    switch (cpu->opcode.op) // 1st nibble
     {
     case 0x0:
-        /* code */
+        switch (cpu->opcode.n) // 4th nibble
+        {
+        case 0x0: // clear screen
+            clearDisplay(&cpu);
+            break;
+        default:
+            break;
+        }
         break;
     
     default:
@@ -46,9 +57,9 @@ void cpu_execute(struct cpu* cpu)
     }
 }
 
-void cpu_cycle(struct cpu* cpu)
+void cpuCycle(struct cpu* cpu)
 {
-    cpu_fetch(cpu);
-    cpu_execute(cpu);
+    cpuFetch(cpu);
+    cpuExecute(cpu);
     // timer or something?
 }
