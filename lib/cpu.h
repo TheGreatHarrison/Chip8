@@ -10,8 +10,8 @@
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 
-#define ON_COLOR = 0xFFFFFFFF
-#define OFF_COLOR = 0xFF000000
+#define ON_COLOR 0xFFFFFFFF
+#define OFF_COLOR 0xFF000000
 
 
 static const uint8_t font[80] = {

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "lib/display.h"
+#include "display.h"
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64

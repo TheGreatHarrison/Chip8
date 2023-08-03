@@ -1,8 +1,6 @@
 #pragma once
 
 #include <stdint.h>
-#include "lib/cpu.h"
-
-
+#include "cpu.h"
 
 void clearDisplay(struct cpu* cpu);

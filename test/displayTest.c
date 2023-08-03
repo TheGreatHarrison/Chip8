@@ -1,9 +1,7 @@
-#include "lib/display.h"
-
 #include <stdint.h>
 
-#include "lib/display.h"
-#include <stdint.h>
+#include "display.h"
+#include "cpu.h"
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64

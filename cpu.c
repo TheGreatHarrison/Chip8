@@ -45,7 +45,7 @@ void cpuExecute(struct cpu* cpu)
         switch (cpu->opcode.n) // 4th nibble
         {
         case 0x0: // clear screen
-            clearDisplay(&cpu);
+            clearDisplay(cpu);
             break;
         default:
             break;

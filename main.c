@@ -1,10 +1,11 @@
-#include "lib/display.h"
-#include "lib/cpu.h"
+#include "display.h"
+#include "cpu.h"
 
 #include <stdint.h>
 
-#include "lib/display.h"
+#include "display.h"
 #include <stdint.h>
+
 
 
 int main(void) {
@@ -13,15 +14,18 @@ int main(void) {
     struct display display;
     int running = 1;
 
+    char* filename = "IBM Logo.ch8";
+
+
     // Initialize the display
-    if (display_init(&display) != 0) 
+    if (display_init(&display) != 0)
     {
         return 1;
     }
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, file) != 0)
+    if (cpuInit(&cpu, filename) != 0)
     {
         return 1; // cpu init failed
     }
@@ -29,7 +33,6 @@ int main(void) {
 
     while (running) 
     {
-
         cpuCycle(&cpu);
 
         SDL_Event event;
