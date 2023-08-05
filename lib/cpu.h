@@ -42,8 +42,8 @@ struct cpu
     uint8_t v[16];
 
     uint8_t delayTimer;
-    uint8_t sound;
-
+    uint8_t soundTimer;
+    
     uint8_t updateDisplay;
 
     uint16_t instruction;
@@ -57,5 +57,6 @@ struct cpu
 int cpuInit(struct cpu* cpu, char* filename);
 void cpuFetch(struct cpu* cpu);
 void cpuExecute(struct cpu* cpu);
+void cpuUpdateTimers(struct cpu* cpu);
 void cpuCycle(struct cpu* cpu);
 

@@ -1,5 +1,6 @@
 #include "display.h"
 #include "cpu.h"
+#include <SDL2/SDL.h>
 
 #include <stdint.h>
 
@@ -8,13 +9,22 @@
 
 
 
+
+
 int main(void) {
 
     // Display init
     struct display display;
     int running = 1;
+    uint32_t start_tick;
+    uint32_t elapsedTime;
+
+    uint16_t cpuHz = 540;
+    uint16_t cpuCycles = cpuHz / 60; // Get this configurable in future or adjust for each game
+    uint16_t update60Hz = 1000 / 60; // time per a 60hz update (16.6666 ms)
 
     char* filename = "IBM Logo.ch8";
+    char* filename2 = "Test1.ch8";
 
 
     // Initialize the display
@@ -25,7 +35,7 @@ int main(void) {
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, filename) != 0)
+    if (cpuInit(&cpu, filename2) != 0)
     {
         return 1; // cpu init failed
     }
@@ -33,9 +43,15 @@ int main(void) {
 
     while (running) 
     {
-        cpuCycle(&cpu);
-        
+
+        uint32_t start_tick = SDL_GetTicks();
+        for (uint8_t i=0; i <= cpuCycles; i++)
+        {
+            cpuCycle(&cpu);
+        }
+
         SDL_Event event;
+
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0; // Set running to false to exit the loop on window close
@@ -47,6 +63,16 @@ int main(void) {
             display_draw(&display, cpu.pixels);
             cpu.updateDisplay = 0;
         }
+
+        // Timers
+        elapsedTime = SDL_GetTicks();
+        if(elapsedTime < update60Hz)
+        {
+            SDL_Delay(update60Hz - elapsedTime);
+        }
+        
+    
+    
     }
 
     // Clean up and exit

@@ -21,7 +21,7 @@ int cpuInit(struct cpu* cpu, char* filename)
     cpu->pc = PC_START;
     cpu->i = 0;
     cpu->delayTimer = 0;
-    cpu->sound = 0;
+    cpu->soundTimer = 0;
     cpu->updateDisplay = 0;
     
 
@@ -71,9 +71,23 @@ void cpuExecute(struct cpu* cpu)
     }
 }
 
+void cpuUpdateTimers(struct cpu* cpu)
+{
+    if (cpu->delayTimer > 0)
+    {
+        cpu->delayTimer--;
+    }
+
+    if (cpu->soundTimer > 0)
+    {
+        cpu->soundTimer--;
+        // Play sound
+    }
+}
+
 void cpuCycle(struct cpu* cpu)
 {
     cpuFetch(cpu);
     cpuExecute(cpu);
-    // timer or something?
+    cpuUpdateTimers(cpu);
 }
