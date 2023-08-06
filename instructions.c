@@ -18,6 +18,11 @@ void jump(struct cpu* cpu)
     cpu->pc = cpu->opcode.address;
 }
 
+void jumpToStack(struct cpu* cpu)
+{
+    cpu->pc = cpu->stack[--cpu->stackPointer-1];
+}
+
 void setRegister(struct cpu* cpu, uint8_t registerIndex, uint8_t value)
 {
     cpu->v[registerIndex] = value;
@@ -26,6 +31,37 @@ void setRegister(struct cpu* cpu, uint8_t registerIndex, uint8_t value)
 void setIRegister(struct cpu* cpu, uint16_t Ivalue)
 {
     cpu->i = Ivalue;
+}
+
+void call(struct cpu* cpu)
+{
+    cpu->stack[cpu->stackPointer++] = cpu->pc; // Todo
+    jump(cpu);
+}
+
+void skip(struct cpu* cpu, int expression) // not sure
+{
+    if (expression)
+    {
+        cpu->pc+=2;
+    }
+}
+
+void assignRegister(struct cpu* cpu, uint8_t id, uint8_t value)
+{
+    cpu->v[id] = value;
+}
+
+void addCarry(struct cpu* cpu, uint8_t vx , uint_8_t vy)
+{
+    if ( vx + vy > 255)
+    {
+        cpu->v[0xF] = 1;
+    } else 
+    {
+        cpu->v[0xF] = 0;
+    }
+    cpu->v[cpu->opcode.x] = vx + vy;
 }
 
 void display( struct cpu* cpu) // DXYN

@@ -39,11 +39,12 @@ struct cpu
     uint16_t pc;
     uint16_t i;
     uint16_t stack[16];
+    uint8_t stackPointer;
     uint8_t v[16];
 
     uint8_t delayTimer;
     uint8_t soundTimer;
-    
+
     uint8_t updateDisplay;
 
     uint16_t instruction;
