@@ -7,6 +7,8 @@
 #define ON_COLOR 0xFFFFFFFF
 #define OFF_COLOR 0xFF000000
 
+#define SHIFTVXTOVY 1
+
 void clearDisplay(struct cpu* cpu)
 {
     memset(cpu->pixels, OFF_COLOR, sizeof(cpu->pixels));
@@ -52,7 +54,7 @@ void assignRegister(struct cpu* cpu, uint8_t id, uint8_t value)
     cpu->v[id] = value;
 }
 
-void addCarry(struct cpu* cpu, uint8_t vx , uint_8_t vy)
+void addCarry(struct cpu* cpu, uint8_t vx , uint8_t vy)
 {
     if ( vx + vy > 255)
     {
@@ -62,6 +64,49 @@ void addCarry(struct cpu* cpu, uint8_t vx , uint_8_t vy)
         cpu->v[0xF] = 0;
     }
     cpu->v[cpu->opcode.x] = vx + vy;
+}
+
+void subtractCarry(struct cpu* cpu, uint8_t vx, uint8_t vy)
+{
+    if ( vx > vy )
+    {
+        cpu->v[0xF] = 1;
+    } else {
+        cpu->v[0xF] = 0;
+    }
+
+    cpu->v[cpu->opcode.x] = vx - vy;
+}
+
+void shiftRight(struct cpu* cpu)
+{
+    if  (SHIFTVXTOVY) // Set VX to the value of VY
+    {
+        setRegister(cpu, cpu->opcode.x, cpu->v[cpu->opcode.y]);
+    }
+    cpu->v[0xF] = cpu->v[cpu->opcode.x] & 1;
+    cpu->v[cpu->opcode.x] >>= 1;
+}
+
+void shiftLeft(struct cpu* cpu)
+{
+    if  (SHIFTVXTOVY) // Set VX to the value of VY
+    {
+        setRegister(cpu, cpu->opcode.x, cpu->v[cpu->opcode.y]);
+    }
+    cpu->v[0xF] = (cpu->v[cpu->opcode.x] & 0x80) ? 1 : 0;;
+    cpu->v[cpu->opcode.x] <<= 1;
+}
+
+void jumpAdd(struct cpu* cpu)
+{
+    // todo handle weird case
+    cpu->pc = cpu->opcode.address + cpu->v[0];
+}
+
+void randomNumber(struct cpu* cpu)
+{
+    cpu->v[cpu->opcode.x] = (rand() % 256) & cpu->opcode.nn;
 }
 
 void display( struct cpu* cpu) // DXYN

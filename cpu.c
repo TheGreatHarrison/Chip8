@@ -23,7 +23,9 @@ int cpuInit(struct cpu* cpu, char* filename)
     cpu->delayTimer = 0;
     cpu->soundTimer = 0;
     cpu->updateDisplay = 0;
-    
+    cpu->stackPointer = 0;
+
+    srand(time(NULL));
 
     return 0;
 
@@ -41,30 +43,95 @@ void cpuExecute(struct cpu* cpu)
     uint8_t vx = cpu->v[cpu->opcode.x];
     switch (cpu->opcode.op) // 1st nibble
     {
-    case 0x0:
-        switch (cpu->opcode.n) // 4th nibble
-        {
-        case 0x0: // clear screen
-            clearDisplay(cpu);
+        case 0x0:
+            switch (cpu->opcode.n) // 4th nibble
+            {
+                case 0x0: // clear screen
+                    clearDisplay(cpu);
+                    break;
+                case 0xE:
+                    jumpToStack(cpu);
+                    break;
+            }
             break;
-        default:
+        case 0x1: // Jump to address 1NNN
+            jump(cpu);
             break;
-        }
+        case 0x2:
+            call(cpu);
+            break;
+        case 0x3:
+            skip(cpu, vx == cpu->opcode.nn); // skip one instruction if the value in VX is equal to NN,
+            break;
+        case 0x4:
+            skip(cpu, vx != cpu->opcode.nn);
+            break;
+        case 0x5:
+            skip(cpu, vx == vy);
+            break;
+        case 0x6: // Set the register VX to the value NN
+            setRegister(cpu, cpu->opcode.x, cpu->opcode.nn);
+            break;
+        case 0x7: // Add the value NN to VX
+            setRegister(cpu, cpu->opcode.x, vx + cpu->opcode.nn);
+            break;
+        case 0x8:
+            switch(cpu->opcode.n)
+            {
+            case 0x0:
+                assignRegister(cpu, cpu->opcode.x, vy);
+                break;
+            case 0x1:
+                assignRegister(cpu, cpu->opcode.x, vx | vy); // OR
+                break;
+            case 0x2:
+                assignRegister(cpu, cpu->opcode.x, vx & vy); // AND
+                break;
+            case 0x3:
+                assignRegister(cpu, cpu->opcode.x, vx ^ vy); // XOR
+                break;
+            case 0x4:
+                addCarry(cpu, vx, vy);
+                break;
+            case 0x5:
+                subtractCarry(cpu, vx, vy);    //8XY5 sets VX to the result of VX - VY
+                break;
+            case 0x6:
+                shiftRight(cpu);
+                break;
+            case 0x7:
+                subtractCarry(cpu, vy, vx);
+                break;
+            case 0xE:
+                shiftLeft(cpu);
+                break;
+            }
         break;
-    case 0x1: // Jump to address 1NNN
-        jump(cpu);
-        break;
-    case 0x6: // Set the register VX to the value NN
-        setRegister(cpu, cpu->opcode.x, cpu->opcode.nn);
-        break;
-    case 0x7: // Add the value NN to VX
-        setRegister(cpu, cpu->opcode.x, vx + cpu->opcode.nn);
+    case 0x9:
+        skip(cpu, vx != vy);
         break;
     case 0xA:
         setIRegister(cpu, cpu->opcode.address);
         break;
+    case 0xB:
+        jumpAdd(cpu);
+        break;
+    case 0xC:
+        randomNumber(cpu);
+        break;
     case 0xD:
         display(cpu);
+        break;
+    case 0xE:
+        switch (cpu->opcode.nn)
+        {
+        case 0x9E:
+            
+            break;
+        case 0xA1:
+            
+            break;
+        }
         break;
     default:
         break;
