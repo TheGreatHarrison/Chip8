@@ -134,7 +134,21 @@ void cpuExecute(struct cpu* cpu)
         }
         break;
     case 0xF:
-        
+        switch(cpu->opcode.nn)
+        {
+            case 0x07: // sets VX to the current value of the delay timer
+                assignRegister(cpu, cpu->opcode.x, cpu->delayTimer);
+                break;
+            case 0x15: // FX15 sets the delay timer to the value in VX
+                setDelayTimer(cpu, vx);
+                break;
+            case 0x1E:
+                addtoIndex(cpu, vx);
+                break;
+            case 0x18: // FX18 sets the sound timer to the value in VX
+                setSoundTimer(cpu, vx);
+                break;
+        }
         break;
     default:
         break;

@@ -102,6 +102,28 @@ void randomNumber(struct cpu* cpu)
     cpu->v[cpu->opcode.x] = (rand() % 256) & cpu->opcode.nn;
 }
 
+void setDelayTimer(struct cpu* cpu, uint8_t value) // sets VX to the current value of the delay timer
+{
+    cpu->delayTimer = value;
+}
+
+void setSoundTimer(struct cpu* cpu, uint8_t value)
+{
+    cpu->soundTimer = value;
+}
+
+void addtoIndex(struct cpu* cpu, int8_t vx)
+{
+    if (cpu->i+vx > 0xFFF || cpu->i+vx < 0x1000)
+    {
+        cpu->v[0xF] = 1; // over flow
+    } else {
+        cpu->[0xF] = 0;
+    }
+
+    cpu->i += vx;
+}
+
 void display( struct cpu* cpu) // DXYN
 {
     uint8_t vx = cpu->v[cpu->opcode.x];
