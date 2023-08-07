@@ -125,13 +125,16 @@ void cpuExecute(struct cpu* cpu)
     case 0xE:
         switch (cpu->opcode.nn)
         {
-        case 0x9E:
-            
-            break;
-        case 0xA1:
-            
-            break;
+            case 0x9E:
+                
+                break;
+            case 0xA1:
+
+                break;
         }
+        break;
+    case 0xF:
+        
         break;
     default:
         break;

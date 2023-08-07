@@ -2,9 +2,7 @@
 
 #include "display.h"
 #include "cpu.h"
-
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
+#include "constants.h"
 
 // Function to create a test pattern
 void createTestPattern(uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT]) {

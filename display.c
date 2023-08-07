@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "display.h"
-
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define SCALE 10
+#include"constants.h"
 
 int display_check_error(char* name, void* pointer) 
 {
