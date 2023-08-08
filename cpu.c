@@ -126,10 +126,10 @@ void cpuExecute(struct cpu* cpu)
         switch (cpu->opcode.nn)
         {
             case 0x9E:
-                
+                skip(cpu, SDL_GetKeyboardState(NULL)[key_map[vx]]);
                 break;
             case 0xA1:
-
+                skip(cpu, !SDL_GetKeyboardState(NULL)[key_map[vx]]);
                 break;
         }
         break;
@@ -139,6 +139,9 @@ void cpuExecute(struct cpu* cpu)
             case 0x07: // sets VX to the current value of the delay timer
                 assignRegister(cpu, cpu->opcode.x, cpu->delayTimer);
                 break;
+            case 0x0A: // key input
+                waitKeyPress(cpu);
+                break;
             case 0x15: // FX15 sets the delay timer to the value in VX
                 setDelayTimer(cpu, vx);
                 break;
@@ -147,6 +150,9 @@ void cpuExecute(struct cpu* cpu)
                 break;
             case 0x18: // FX18 sets the sound timer to the value in VX
                 setSoundTimer(cpu, vx);
+                break;
+            case 0x29:
+                setIRegister(cpu, vx * 5); // each sprite is 5 bytes 
                 break;
         }
         break;

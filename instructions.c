@@ -124,6 +124,29 @@ void addtoIndex(struct cpu* cpu, int8_t vx)
     cpu->i += vx;
 }
 
+void skip(struct cpu* cpu, uint8_t skip)
+{
+    if (skip)
+    {
+        cpu->pc += 2;
+    }
+}
+
+void waitKeyPress(struct cpu* cpu)
+{
+    cpu->pc -= 2;
+
+    for (int i = 0; i <= 16; i++)
+    {
+        if (SDL_GetKeyboardState(NULL)[key_map[i]])
+        {
+            cpu->v[cpu->opcode.x] = i;
+            cpu += 2;
+            break;
+        }
+    }
+}
+
 void display( struct cpu* cpu) // DXYN
 {
     uint8_t vx = cpu->v[cpu->opcode.x];
