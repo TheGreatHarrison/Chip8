@@ -157,6 +157,12 @@ void cpuExecute(struct cpu* cpu)
             case 0x33:
                 decimalConvert(cpu);
                 break;
+            case 0x55:
+                copyToMemory(cpu);
+                break;
+            case 0x65:
+                copyFromMemory(cpu);
+                break;
         }
         break;
     default:

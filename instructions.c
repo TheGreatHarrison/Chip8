@@ -34,14 +34,6 @@ void call(struct cpu* cpu)
     jump(cpu);
 }
 
-void skip(struct cpu* cpu, int expression) // not sure
-{
-    if (expression)
-    {
-        cpu->pc+=2;
-    }
-}
-
 void assignRegister(struct cpu* cpu, uint8_t id, uint8_t value)
 {
     cpu->v[id] = value;
@@ -112,13 +104,13 @@ void setSoundTimer(struct cpu* cpu, uint8_t value)
     cpu->soundTimer = value;
 }
 
-void addtoIndex(struct cpu* cpu, int8_t vx)
+void addtoIndex(struct cpu* cpu, uint8_t vx)
 {
     if (cpu->i+vx > 0xFFF || cpu->i+vx < 0x1000)
     {
         cpu->v[0xF] = 1; // over flow
     } else {
-        cpu->[0xF] = 0;
+        cpu->v[0xF] = 0;
     }
 
     cpu->i += vx;
@@ -152,9 +144,16 @@ void decimalConvert(struct cpu* cpu)
     cpu->memory[cpu->i] = cpu->v[cpu->opcode.x] / 100;
     cpu->memory[cpu->i+1] = (cpu->v[cpu->opcode.x] / 10) % 10;
     cpu->memory[cpu->i+2] = cpu->v[cpu->opcode.x] % 10;
+}
 
-    i + 1 = vx % 100;
-    i = vx 
+void copyToMemory(struct cpu* cpu)
+{
+    memcpy(cpu->memory + cpu->i, cpu->v, cpu->opcode.x + 1);
+}
+
+void copyFromMemory(struct cpu* cpu) 
+{
+    memcpy(cpu->v, cpu->memory + cpu->i, cpu->opcode.x + 1);
 }
 
 void display( struct cpu* cpu) // DXYN

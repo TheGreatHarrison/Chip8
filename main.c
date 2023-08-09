@@ -20,7 +20,7 @@ int main(void) {
 
     char* filename = "IBM Logo.ch8";
     char* filename2 = "Test1.ch8";
-
+    char* filename3 = "test3.ch8";
 
     // Initialize the display
     if (display_init(&display) != 0)
@@ -30,7 +30,7 @@ int main(void) {
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, filename2) != 0)
+    if (cpuInit(&cpu, filename3) != 0)
     {
         return 1; // cpu init failed
     }
