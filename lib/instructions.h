@@ -20,6 +20,7 @@ void randomNumber(struct cpu* cpu);
 void setDelayTimer(struct cpu* cpu, uint8_t value);
 void setSoundTimer(struct cpu* cpu, uint8_t value);
 void addtoIndex(struct cpu* cpu);
+void decimalConvert(struct cpu* cpu);
 
 
 void display(struct cpu* cpu);

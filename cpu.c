@@ -154,6 +154,9 @@ void cpuExecute(struct cpu* cpu)
             case 0x29:
                 setIRegister(cpu, vx * 5); // each sprite is 5 bytes 
                 break;
+            case 0x33:
+                decimalConvert(cpu);
+                break;
         }
         break;
     default:

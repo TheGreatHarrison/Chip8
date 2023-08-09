@@ -147,6 +147,16 @@ void waitKeyPress(struct cpu* cpu)
     }
 }
 
+void decimalConvert(struct cpu* cpu)
+{
+    cpu->memory[cpu->i] = cpu->v[cpu->opcode.x] / 100;
+    cpu->memory[cpu->i+1] = (cpu->v[cpu->opcode.x] / 10) % 10;
+    cpu->memory[cpu->i+2] = cpu->v[cpu->opcode.x] % 10;
+
+    i + 1 = vx % 100;
+    i = vx 
+}
+
 void display( struct cpu* cpu) // DXYN
 {
     uint8_t vx = cpu->v[cpu->opcode.x];
