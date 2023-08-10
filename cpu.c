@@ -26,9 +26,7 @@ int cpuInit(struct cpu* cpu, char* filename)
     cpu->stackPointer = 0;
 
     srand(time(NULL));
-
     return 0;
-
 }
 
 void cpuFetch(struct cpu* cpu)
@@ -106,7 +104,7 @@ void cpuExecute(struct cpu* cpu)
                 shiftLeft(cpu);
                 break;
             }
-        break;
+            break;
     case 0x9:
         skip(cpu, vx != vy);
         break;
@@ -164,8 +162,6 @@ void cpuExecute(struct cpu* cpu)
                 copyFromMemory(cpu);
                 break;
         }
-        break;
-    default:
         break;
     }
 }

@@ -6,8 +6,8 @@
 #include <stdint.h>
 
 
-int main(void) {
-
+int main(void)
+{
     // Display init
     struct display display;
     int running = 1;
@@ -21,6 +21,8 @@ int main(void) {
     char* filename = "IBM Logo.ch8";
     char* filename2 = "Test1.ch8";
     char* filename3 = "test3.ch8";
+    char* filename4 = "cavern.ch8";
+    char* filename5 = "Tetris.ch8";
 
     // Initialize the display
     if (display_init(&display) != 0)
@@ -28,9 +30,10 @@ int main(void) {
         return 1;
     }
 
+
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, filename3) != 0)
+    if (cpuInit(&cpu, filename5) != 0)
     {
         return 1; // cpu init failed
     }
@@ -38,15 +41,13 @@ int main(void) {
 
     while (running) 
     {
-
         uint32_t start_tick = SDL_GetTicks();
-        for (uint8_t i=0; i <= cpuCycles; i++)
+        for (int i=0; i < cpuCycles; i++)
         {
             cpuCycle(&cpu);
         }
 
         SDL_Event event;
-
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 running = 0; // Set running to false to exit the loop on window close
@@ -58,18 +59,13 @@ int main(void) {
             display_draw(&display, cpu.pixels);
             cpu.updateDisplay = 0;
         }
-
         // Timers
-        elapsedTime = SDL_GetTicks();
+        elapsedTime = SDL_GetTicks() - start_tick;
         if(elapsedTime < update60Hz)
         {
             SDL_Delay(update60Hz - elapsedTime);
         }
-        
-    
-    
     }
-
     // Clean up and exit
     display_cleanup(&display);
     return 0;

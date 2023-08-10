@@ -15,7 +15,7 @@ void jump(struct cpu* cpu)
 
 void jumpToStack(struct cpu* cpu)
 {
-    cpu->pc = cpu->stack[--cpu->stackPointer-1];
+    cpu->pc = cpu->stack[--(cpu->stackPointer)];
 }
 
 void setRegister(struct cpu* cpu, uint8_t registerIndex, uint8_t value)
@@ -79,7 +79,7 @@ void shiftLeft(struct cpu* cpu)
     {
         setRegister(cpu, cpu->opcode.x, cpu->v[cpu->opcode.y]);
     }
-    cpu->v[0xF] = (cpu->v[cpu->opcode.x] & 0x80) ? 1 : 0;;
+    cpu->v[0xF] = (cpu->v[cpu->opcode.x] & 0x80) ? 1 : 0;
     cpu->v[cpu->opcode.x] <<= 1;
 }
 
