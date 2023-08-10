@@ -18,11 +18,11 @@ int main(void)
     uint16_t cpuCycles = cpuHz / 60; // Get this configurable in future or adjust for each game
     uint16_t update60Hz = 1000 / 60; // time per a 60hz update (16.6666 ms)
 
-    char* filename = "IBM Logo.ch8";
-    char* filename2 = "Test1.ch8";
-    char* filename3 = "test3.ch8";
-    char* filename4 = "cavern.ch8";
-    char* filename5 = "Tetris.ch8";
+    char* filename = "testRoms/IBM Logo.ch8";
+    char* filename2 = "testRoms/Test1.ch8";
+    char* filename3 = "testRoms/test3.ch8";
+    char* filename4 = "testRoms/pong.rom";
+    char* filename5 = "testRoms/Tetris.ch8";
 
     // Initialize the display
     if (display_init(&display) != 0)
@@ -33,7 +33,7 @@ int main(void)
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, filename5) != 0)
+    if (cpuInit(&cpu, filename4) != 0)
     {
         return 1; // cpu init failed
     }
