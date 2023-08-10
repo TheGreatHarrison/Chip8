@@ -1,6 +1,5 @@
-#include "instructions.h"
-#include "cpu.h"
-#include "constants.h"
+#include "inc/instructions.h"
+#include "inc/constants.h"
 
 void clearDisplay(struct cpu* cpu)
 {
