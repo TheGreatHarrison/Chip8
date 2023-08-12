@@ -3,7 +3,7 @@ Chip-8 Interpreter
 
 Project Ideas:
 
-1. Build Chip-8 Interpreter Locally
+1. Build Chip-8 Interpreter Locally - DONE
 
 Documentation:
 https://tobiasvl.github.io/blog/write-a-chip-8-emulator/
