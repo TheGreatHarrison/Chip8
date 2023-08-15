@@ -1,6 +1,6 @@
 ToDo:
 
-timers 
-cpu timing to get 500 cycle
-More op codes
-ROM selection would be cool
+    More op codes
+    ROM selection would be cool
+    Take Key Inputs
+    make constant file
