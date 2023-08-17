@@ -1,18 +1,111 @@
 
 #include "cpu.h"
-//#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL.h>
 #include "constants.h"
 #include "display.h"
+
+#include <SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdint.h>
 
 char* roms[ROM_COUNT] = {
-    "testRoms/IBM Logo.ch8",
-    "testRoms/Test1.ch8",
-    "testRoms/test3.ch8"
+    "testRoms/pong.rom",
+    "testRoms/Tetris.ch8",
+    "testRoms/cavern.ch8"
 };
 
-// int selectRom()
+int selectRom() {
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("SDL initialization failed: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    // Initialize SDL_ttf
+    if (TTF_Init() < 0) {
+        printf("SDL_ttf initialization failed: %s\n", TTF_GetError());
+        return -1;
+    }
+
+    // Create window and renderer
+    SDL_Window* window = SDL_CreateWindow("Chip-8 ROM Selection", SDL_WINDOWPOS_UNDEFINED,
+                                          SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH*SCALE/2, SCREEN_HEIGHT*SCALE/2, SDL_WINDOW_SHOWN);
+    if (!window) {
+        printf("Window creation failed: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        printf("Renderer creation failed: %s\n", SDL_GetError()); 
+        return -1;
+    }
+
+    // Load font for text rendering
+    TTF_Font* ttffont = TTF_OpenFont("inc/quadrangle.ttf", 10);
+    if (!ttffont) {
+        printf("Font loading failed: %s\n", TTF_GetError());
+        return -1;
+    }
+
+    int selectedRom = 0;
+    int quit = 0;
+
+    while (!quit) {
+        // Handle input events
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                //quit = 1;
+            } else if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                    case SDLK_UP:
+                        selectedRom = (selectedRom - 1 + ROM_COUNT) % ROM_COUNT;
+                        break;
+                    case SDLK_DOWN:
+                        selectedRom = (selectedRom + 1) % ROM_COUNT;
+                        break;
+                    case SDLK_RETURN:
+                        quit = 1;
+                        break;
+                }
+            }
+        }
+
+        // Clear the renderer
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_Color textColor;
+
+        // Render menu
+        for (int i = 0; i < ROM_COUNT; i++) {
+            if (i == selectedRom) {
+                SDL_Color textColor = {255, 255, 0, 255};
+            } else 
+            {
+                SDL_Color textColor = { 255, 255, 255, 255 };
+            }
+            SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, roms[i], textColor);
+            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+            // Clean up texture and surface
+            // SDL_DestroyTexture(textTexture);
+            // SDL_FreeSurface(textSurface);
+        }
+
+        // Present the renderer
+        SDL_RenderPresent(renderer);
+    }
+
+    // Clean up and return
+    TTF_CloseFont(ttffont);
+    TTF_Quit();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return selectedRom;
+}
+
+// int selectRom2()
 // {
 //     SDL_Window* window = SDL_CreateWindow("Chip-8 ROM Selection", SDL_WINDOWPOS_UNDEFINED,
 //                                           SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
@@ -92,11 +185,11 @@ int main(void)
         return 1;
     }
 
-    //int selectedROM = selectRom();
+    int selectedROM = selectRom();
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, filename5) != 0) // roms[selectedROM]
+    if (cpuInit(&cpu, roms[selectedROM]) != 0) // roms[selectedROM]
     {
         return 1; // cpu init failed
     }

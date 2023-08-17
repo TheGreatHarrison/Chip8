@@ -1,7 +1,7 @@
 #pragma once
 
 #include "opcode.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "constants.h"
 
 struct cpu

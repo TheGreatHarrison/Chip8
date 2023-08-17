@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #define MEMORY_SIZE 4096
 #define PC_START 0x200
