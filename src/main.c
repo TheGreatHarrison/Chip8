@@ -41,7 +41,7 @@ int selectRom() {
     }
 
     // Load font for text rendering
-    TTF_Font* ttffont = TTF_OpenFont("inc/quadrangle.ttf", 10);
+    TTF_Font* ttffont = TTF_OpenFont("inc/quadrangle.ttf", 1000);
     if (!ttffont) {
         printf("Font loading failed: %s\n", TTF_GetError());
         return -1;
@@ -79,14 +79,20 @@ int selectRom() {
         // Render menu
         for (int i = 0; i < ROM_COUNT; i++) {
             if (i == selectedRom) {
-                SDL_Color textColor = {255, 255, 0, 255};
-            } else 
-            {
-                SDL_Color textColor = { 255, 255, 255, 255 };
+                textColor.r = 255;
+                textColor.g = 255;
+                textColor.b = 0;
+                textColor.a = 255;
+            } else {
+                textColor.r = 255;
+                textColor.g = 255;
+                textColor.b = 255;
+                textColor.a = 255;
             }
             SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, roms[i], textColor);
             SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
+            SDL_RenderCopy(renderer, textTexture, NULL, NULL);
             // Clean up texture and surface
             // SDL_DestroyTexture(textTexture);
             // SDL_FreeSurface(textSurface);
