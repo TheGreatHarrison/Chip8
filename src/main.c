@@ -10,7 +10,8 @@
 char* roms[ROM_COUNT] = {
     "testRoms/pong.rom",
     "testRoms/Tetris.ch8",
-    "testRoms/cavern.ch8"
+    "testRoms/cavern.ch8",
+    "testRoms/SpaceInvaders.ch8"
 };
 
 int selectRom() {
@@ -75,6 +76,8 @@ int selectRom() {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         SDL_Color textColor;
+        int textHeight = 50; // Adjust this value for appropriate spacing
+        int startY = (SCREEN_HEIGHT * SCALE / 2 - (textHeight * ROM_COUNT)) / 2;
 
         // Render menu
         for (int i = 0; i < ROM_COUNT; i++) {
@@ -92,14 +95,20 @@ int selectRom() {
             SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, roms[i], textColor);
             SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
-            SDL_RenderCopy(renderer, textTexture, NULL, NULL);
+            int textWidth, textHeight;
+            SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
+
+            int posX = (SCREEN_WIDTH * SCALE / 2 - textWidth) / 2;
+            int posY = startY + i * textHeight;
+
+            SDL_Rect textRect = { posX, posY, textWidth, textHeight };
+
+            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+            SDL_RenderPresent(renderer);
             // Clean up texture and surface
             // SDL_DestroyTexture(textTexture);
             // SDL_FreeSurface(textSurface);
         }
-
-        // Present the renderer
-        SDL_RenderPresent(renderer);
     }
 
     // Clean up and return
