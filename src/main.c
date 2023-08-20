@@ -42,7 +42,7 @@ int selectRom() {
     }
 
     // Load font for text rendering
-    TTF_Font* ttffont = TTF_OpenFont("inc/quadrangle.ttf", 1000);
+    TTF_Font* ttffont = TTF_OpenFont("inc/quadrangle.ttf", 10);
     if (!ttffont) {
         printf("Font loading failed: %s\n", TTF_GetError());
         return -1;
@@ -74,16 +74,16 @@ int selectRom() {
 
         // Clear the renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
         SDL_Color textColor;
-        int textHeight = 50; // Adjust this value for appropriate spacing
+        int textHeight = 25; // Adjust this value for appropriate spacing
         int startY = (SCREEN_HEIGHT * SCALE / 2 - (textHeight * ROM_COUNT)) / 2;
 
         // Render menu
         for (int i = 0; i < ROM_COUNT; i++) {
+            SDL_RenderClear(renderer);
             if (i == selectedRom) {
                 textColor.r = 255;
-                textColor.g = 255;
+                textColor.g = 0;
                 textColor.b = 0;
                 textColor.a = 255;
             } else {
@@ -106,12 +106,10 @@ int selectRom() {
             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
             SDL_RenderPresent(renderer);
             // Clean up texture and surface
-            // SDL_DestroyTexture(textTexture);
-            // SDL_FreeSurface(textSurface);
         }
+        SDL_Delay(UPDATE60HZ);
     }
 
-    // Clean up and return
     TTF_CloseFont(ttffont);
     TTF_Quit();
     SDL_DestroyRenderer(renderer);
@@ -119,63 +117,6 @@ int selectRom() {
     SDL_Quit();
     return selectedRom;
 }
-
-// int selectRom2()
-// {
-//     SDL_Window* window = SDL_CreateWindow("Chip-8 ROM Selection", SDL_WINDOWPOS_UNDEFINED,
-//                                           SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
-//     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-//     int selectedRom = 0;
-//     int quit = 0;
-
-//     while (!quit) {
-//         // Render menu
-//         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-//         SDL_RenderClear(renderer);
-
-//         for (int i = 0; i < ROM_COUNT; i++) {
-//             SDL_Color textColor = { 255, 255, 255, 255 };
-//             SDL_Surface* textSurface = TTF_RenderText_Solid(font, roms[i], textColor);
-//             SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-//             if (i == selectedRom) {
-//                 SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255); // Highlight selected
-//             } else {
-//                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-//             }
-//             // Render ROM names here using SDL rendering functions
-//         }
-
-//         SDL_RenderPresent(renderer);
-
-//         // Handle input
-//         SDL_Event event;
-//         while (SDL_PollEvent(&event)) {
-//             if (event.type == SDL_QUIT) {
-//                 quit = 1;
-//             } else if (event.type == SDL_KEYDOWN) {
-//                 switch (event.key.keysym.sym) {
-//                     case SDLK_UP:
-//                         selectedRom = (selectedRom - 1 + ROM_COUNT) % ROM_COUNT;
-//                         break;
-//                     case SDLK_DOWN:
-//                         selectedRom = (selectedRom + 1) % ROM_COUNT;
-//                         break;
-//                     case SDLK_RETURN:
-//                         // Launch the selected ROM
-//                         printf("Launching: %s\n", roms[selectedRom]);
-//                         // Add code to start Chip-8 interpreter with the selected ROM
-//                         break;
-//                 }
-//             }
-//         }
-//     }
-//     SDL_DestroyRenderer(renderer);
-//     SDL_DestroyWindow(window);
-//     SDL_Quit();
-//     return selectedRom;
-// }
 
 int main(void)
 {
@@ -186,8 +127,8 @@ int main(void)
 
     uint16_t cpuHz = 540;
     uint16_t cpuCycles = cpuHz / 60; // Get this configurable in future or adjust for each game
-    uint16_t update60Hz = 1000 / 60; // time per a 60hz update (16.6666 ms)
-
+    int selectedROM = selectRom();
+    
     char* filename = "testRoms/IBM Logo.ch8";
     char* filename2 = "testRoms/Test1.ch8";
     char* filename3 = "testRoms/test3.ch8";
@@ -199,8 +140,6 @@ int main(void)
     {
         return 1;
     }
-
-    int selectedROM = selectRom();
 
     // CPU int
     struct cpu cpu;
@@ -233,9 +172,9 @@ int main(void)
         }
         // Timers
         elapsedTime = SDL_GetTicks() - start_tick;
-        if(elapsedTime < update60Hz)
+        if(elapsedTime < UPDATE60HZ)
         {
-            SDL_Delay(update60Hz - elapsedTime);
+            SDL_Delay(UPDATE60HZ - elapsedTime);
         }
     }
     // Clean up and exit

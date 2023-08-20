@@ -15,7 +15,9 @@
 
 #define SCALE 10
 
-#define ROM_COUNT 3
+#define ROM_COUNT 4
+
+#define UPDATE60HZ 1000 / 60
 
 static const uint8_t font[80] = {
   0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
