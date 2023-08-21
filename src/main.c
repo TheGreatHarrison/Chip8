@@ -50,6 +50,8 @@ int selectRom() {
 
     int selectedRom = 0;
     int quit = 0;
+    int textHeight = 25; // Adjust this value for appropriate spacing
+    const char* titleText = "Chip-8 ROM Selection";
 
     // Create an off-screen texture to render the whole scene
     SDL_Texture* offScreenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH * SCALE / 2, SCREEN_HEIGHT * SCALE / 2);
@@ -79,9 +81,23 @@ int selectRom() {
         // Clear the renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_Color textColor;
-        int textHeight = 25; // Adjust this value for appropriate spacing
+        textColor.r = 255;
+        textColor.g = 255;
+        textColor.b = 255;
+        textColor.a = 255;
+        // title
         int startY = (SCREEN_HEIGHT * SCALE / 2 - (textHeight * ROM_COUNT)) / 2;
+        SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, titleText, textColor);
+        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        int textWidth, textHeight;
+        SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
 
+        int posX = (SCREEN_WIDTH * SCALE / 2 - textWidth) / 2;
+        int posY = startY + textHeight;
+
+        SDL_Rect textRect = { posX, posY, textWidth, textHeight };
+
+        SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
         // Render menu
         for (int i = 0; i < ROM_COUNT; i++) {
             if (i == selectedRom) {
@@ -102,9 +118,9 @@ int selectRom() {
             SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
 
             int posX = (SCREEN_WIDTH * SCALE / 2 - textWidth) / 2;
-            int posY = startY + i * textHeight;
+            int posY = startY + (i+2) * textHeight;
 
-            SDL_Rect textRect = { posX, posY, textWidth, textHeight };
+            SDL_Rect textRect = { posX, posY, textWidth, textHeight};
 
             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
             // Clean up texture and surface
