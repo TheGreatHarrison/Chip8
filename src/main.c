@@ -51,7 +51,7 @@ int selectRom() {
     int selectedRom = 0;
     int quit = 0;
     int textHeight = 25; // Adjust this value for appropriate spacing
-    const char* titleText = "Chip-8 ROM Selection";
+    const char* titleText = "CHIP-8";
 
     // Create an off-screen texture to render the whole scene
     SDL_Texture* offScreenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH * SCALE / 2, SCREEN_HEIGHT * SCALE / 2);
@@ -81,9 +81,9 @@ int selectRom() {
         // Clear the renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_Color textColor;
-        textColor.r = 255;
+        textColor.r = 0;
         textColor.g = 255;
-        textColor.b = 255;
+        textColor.b = 0;
         textColor.a = 255;
         // title
         int startY = (SCREEN_HEIGHT * SCALE / 2 - (textHeight * ROM_COUNT)) / 2;
