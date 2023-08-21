@@ -8,10 +8,10 @@
 #include <stdint.h>
 
 char* roms[ROM_COUNT] = {
-    "testRoms/pong.rom",
-    "testRoms/Tetris.ch8",
-    "testRoms/cavern.ch8",
-    "testRoms/SpaceInvaders.ch8"
+    "Pong.rom",
+    "Tetris.ch8",
+    "Cavern.ch8",
+    "SpaceInvaders.ch8"
 };
 
 int selectRom() {
@@ -51,6 +51,9 @@ int selectRom() {
     int selectedRom = 0;
     int quit = 0;
 
+    // Create an off-screen texture to render the whole scene
+    SDL_Texture* offScreenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH * SCALE / 2, SCREEN_HEIGHT * SCALE / 2);
+
     while (!quit) {
         // Handle input events
         SDL_Event event;
@@ -72,6 +75,7 @@ int selectRom() {
             }
         }
 
+        SDL_SetRenderTarget(renderer, offScreenTexture);
         // Clear the renderer
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_Color textColor;
@@ -80,7 +84,6 @@ int selectRom() {
 
         // Render menu
         for (int i = 0; i < ROM_COUNT; i++) {
-            SDL_RenderClear(renderer);
             if (i == selectedRom) {
                 textColor.r = 255;
                 textColor.g = 0;
@@ -104,9 +107,18 @@ int selectRom() {
             SDL_Rect textRect = { posX, posY, textWidth, textHeight };
 
             SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-            SDL_RenderPresent(renderer);
             // Clean up texture and surface
         }
+
+        // Reset render target to the default window
+        SDL_SetRenderTarget(renderer, NULL);
+
+        // Clear the renderer
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderCopy(renderer, offScreenTexture, NULL, NULL);
+
+        SDL_RenderPresent(renderer);
+
         SDL_Delay(UPDATE60HZ);
     }
 
