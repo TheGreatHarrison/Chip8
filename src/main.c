@@ -155,7 +155,7 @@ int main(void)
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, roms[selectedROM]) != 0) // roms[selectedROM]
+    if (cpuInit(&cpu, (roms[selectedROM])) != 0) // roms[selectedROM]
     {
         return 1; // cpu init failed
     }

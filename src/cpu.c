@@ -4,7 +4,11 @@
 
 int cpuInit(struct cpu* cpu, char* filename)
 {
-    FILE* rom = fopen(filename, "rb");
+    const char* directory = "testRoms/";
+    char file[80];
+    sprintf(file,"%s%s", directory, filename);
+
+    FILE* rom = fopen(file, "rb");
     if (!rom) 
     {
         fprintf(stderr, "Unable to open file '%s'!\n", filename);
