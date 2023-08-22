@@ -11,11 +11,11 @@ int display_check_error(char* name, void* pointer)
   return 0;
 }
 
-int display_init(struct display* display) 
+int display_init(struct display* display, char* displayName) 
 {
   SDL_Init(SDL_INIT_VIDEO);
 
-  display->window = SDL_CreateWindow("c8", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE, SDL_WINDOW_SHOWN);
+  display->window = SDL_CreateWindow(displayName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE, SDL_WINDOW_SHOWN);
   if (display_check_error("window", display->window))
     {
       return -1;

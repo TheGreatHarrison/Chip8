@@ -17,29 +17,12 @@ char* roms[ROM_COUNT] = {
 };
 
 int selectRom() {
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("SDL initialization failed: %s\n", SDL_GetError());
-        return -1;
-    }
+    struct display ROMdisplay;
+    display_init(&ROMdisplay, "Chip-8 ROM Selection");
 
     // Initialize SDL_ttf
     if (TTF_Init() < 0) {
         printf("SDL_ttf initialization failed: %s\n", TTF_GetError());
-        return -1;
-    }
-
-    // Create window and renderer
-    SDL_Window* window = SDL_CreateWindow("Chip-8 ROM Selection", SDL_WINDOWPOS_UNDEFINED,
-                                          SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH*SCALE/2, SCREEN_HEIGHT*SCALE/2, SDL_WINDOW_SHOWN);
-    if (!window) {
-        printf("Window creation failed: %s\n", SDL_GetError());
-        return -1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        printf("Renderer creation failed: %s\n", SDL_GetError()); 
         return -1;
     }
 
@@ -56,7 +39,7 @@ int selectRom() {
     const char* titleText = "CHIP-8";
 
     // Create an off-screen texture to render the whole scene
-    SDL_Texture* offScreenTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH * SCALE / 2, SCREEN_HEIGHT * SCALE / 2);
+    SDL_Texture* offScreenTexture = SDL_CreateTexture(ROMdisplay.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH * SCALE / 2, SCREEN_HEIGHT * SCALE / 2);
 
     while (!quit) {
         // Handle input events
@@ -79,9 +62,9 @@ int selectRom() {
             }
         }
 
-        SDL_SetRenderTarget(renderer, offScreenTexture);
+        SDL_SetRenderTarget(ROMdisplay.renderer, offScreenTexture);
         // Clear the renderer
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(ROMdisplay.renderer, 0, 0, 0, 255);
         SDL_Color textColor;
         textColor.r = 0;
         textColor.g = 255;
@@ -90,7 +73,7 @@ int selectRom() {
         // title
         int startY = (SCREEN_HEIGHT * SCALE / 2 - (textHeight * ROM_COUNT)) / 2;
         SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, titleText, textColor);
-        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(ROMdisplay.renderer, textSurface);
         int textWidth, textHeight;
         SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
 
@@ -99,7 +82,7 @@ int selectRom() {
 
         SDL_Rect textRect = { posX, posY, textWidth, textHeight };
 
-        SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+        SDL_RenderCopy(ROMdisplay.renderer, textTexture, NULL, &textRect);
         // Render menu
         for (int i = 0; i < ROM_COUNT; i++) {
             if (i == selectedRom) {
@@ -114,7 +97,7 @@ int selectRom() {
                 textColor.a = 255;
             }
             SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, roms[i], textColor);
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(ROMdisplay.renderer, textSurface);
 
             int textWidth, textHeight;
             SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
@@ -124,26 +107,26 @@ int selectRom() {
 
             SDL_Rect textRect = { posX, posY, textWidth, textHeight};
 
-            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+            SDL_RenderCopy(ROMdisplay.renderer, textTexture, NULL, &textRect);
             // Clean up texture and surface
         }
 
         // Reset render target to the default window
-        SDL_SetRenderTarget(renderer, NULL);
+        SDL_SetRenderTarget(ROMdisplay.renderer, NULL);
 
         // Clear the renderer
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderCopy(renderer, offScreenTexture, NULL, NULL);
+        SDL_SetRenderDrawColor(ROMdisplay.renderer, 0, 0, 0, 255);
+        SDL_RenderCopy(ROMdisplay.renderer, offScreenTexture, NULL, NULL);
 
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(ROMdisplay.renderer);
 
         SDL_Delay(UPDATE60HZ);
     }
 
     TTF_CloseFont(ttffont);
     TTF_Quit();
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(ROMdisplay.renderer);
+    SDL_DestroyWindow(ROMdisplay.window);
     SDL_Quit();
     return selectedRom;
 }
@@ -158,15 +141,9 @@ int main(void)
     uint16_t cpuHz = 540;
     uint16_t cpuCycles = cpuHz / 60; // Get this configurable in future or adjust for each game
     int selectedROM = selectRom();
-    
-    char* filename = "testRoms/IBM Logo.ch8";
-    char* filename2 = "testRoms/Test1.ch8";
-    char* filename3 = "testRoms/test3.ch8";
-    char* filename4 = "testRoms/pong.rom";
-    char* filename5 = "testRoms/Tetris.ch8";
 
     // Initialize the display
-    if (display_init(&display) != 0)
+    if (display_init(&display, "Chip-8") != 0)
     {
         return 1;
     }
