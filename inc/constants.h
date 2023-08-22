@@ -15,7 +15,7 @@
 
 #define SCALE 10
 
-#define ROM_COUNT 4
+#define ROM_COUNT 5
 
 #define UPDATE60HZ 1000 / 60
 

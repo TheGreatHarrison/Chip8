@@ -10,8 +10,10 @@
 char* roms[ROM_COUNT] = {
     "Pong.rom",
     "Tetris.ch8",
-    "Cavern.ch8",
-    "SpaceInvaders.ch8"
+    "SpaceInvaders.ch8", 
+    "br8kout.ch8",
+    "flightrunner.ch8"
+
 };
 
 int selectRom() {
