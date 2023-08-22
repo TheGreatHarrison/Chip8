@@ -1,6 +1,3 @@
 ToDo:
-
-    More op codes
-    ROM selection would be cool
-    Take Key Inputs
-    make constant file
+    Clean up  rom selection
+    Make speed configurable
