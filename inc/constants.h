@@ -19,6 +19,14 @@
 
 #define UPDATE60HZ 1000 / 60
 
+static const char* roms[ROM_COUNT] = {
+    "Pong.rom",
+    "Tetris.ch8",
+    "SpaceInvaders.ch8", 
+    "br8kout.ch8",
+    "flightrunner.ch8"
+};
+
 static const uint8_t font[80] = {
   0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
   0x20, 0x60, 0x20, 0x20, 0x70, // 1

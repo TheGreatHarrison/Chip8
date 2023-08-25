@@ -2,7 +2,7 @@
 #include "instructions.h"
 
 
-int cpuInit(struct cpu* cpu, char* filename)
+int cpuInit(struct cpu* cpu, const char* filename)
 {
     const char* directory = "testRoms/";
     char file[80];

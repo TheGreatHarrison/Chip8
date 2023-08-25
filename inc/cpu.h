@@ -26,7 +26,7 @@ struct cpu
 };
 
 // cpu things
-int cpuInit(struct cpu* cpu, char* filename);
+int cpuInit(struct cpu* cpu, const char* filename);
 void cpuFetch(struct cpu* cpu);
 void cpuExecute(struct cpu* cpu);
 void cpuUpdateTimers(struct cpu* cpu);
