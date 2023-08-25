@@ -8,7 +8,7 @@
 
 int selectRom(void) {
     struct display ROMdisplay;
-    display_init(&ROMdisplay, "Chip-8 ROM Selection");
+    display_init(&ROMdisplay, "Chip-8 ROM Selection", 1);
 
     // Initialize SDL_ttf
     if (TTF_Init() < 0) {

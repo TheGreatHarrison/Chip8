@@ -21,7 +21,7 @@ int main(void)
     selectedROM = selectRom();
 
     // Initialize the display
-    if (display_init(&display, "Chip-8") != 0)
+    if (display_init(&display, "Chip-8", 0) != 0)
     {
         return 1;
     }

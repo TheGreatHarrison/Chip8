@@ -11,7 +11,7 @@ int display_check_error(char* name, void* pointer)
   return 0;
 }
 
-int display_init(struct display* display, char* displayName) 
+int display_init(struct display* display, char* displayName, int ttf) 
 {
   SDL_Init(SDL_INIT_VIDEO);
 
@@ -33,6 +33,25 @@ int display_init(struct display* display, char* displayName)
       return -1;
     }
 
+  if (ttf)
+  {
+    // Initialize SDL_ttf
+    if (TTF_Init() < 0) 
+    {
+        printf("SDL_ttf initialization failed: %s\n", TTF_GetError());
+        return -1;
+    }
+    // Load font for text rendering
+    display->ttffont = TTF_OpenFont("inc/quadrangle.ttf", 10);
+    if (!display->ttffont) 
+    {
+        printf("Font loading failed: %s\n", TTF_GetError());
+        return -1;
+    }
+  } else 
+  {
+    display->ttffont = NULL;
+  }
   return 0;
 }
 
