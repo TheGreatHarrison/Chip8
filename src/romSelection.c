@@ -10,19 +10,6 @@ int selectRom(void) {
     struct display ROMdisplay;
     display_init(&ROMdisplay, "Chip-8 ROM Selection", 1);
 
-    // Initialize SDL_ttf
-    if (TTF_Init() < 0) {
-        printf("SDL_ttf initialization failed: %s\n", TTF_GetError());
-        return -1;
-    }
-
-    // Load font for text rendering
-    TTF_Font* ttffont = TTF_OpenFont("inc/quadrangle.ttf", 10);
-    if (!ttffont) {
-        printf("Font loading failed: %s\n", TTF_GetError());
-        return -1;
-    }
-
     int selectedRom = 0;
     int quit = 0;
     int textHeight = 25; // Adjust this value for appropriate spacing
@@ -62,7 +49,7 @@ int selectRom(void) {
         textColor.a = 255;
         // title
         int startY = (SCREEN_HEIGHT * SCALE / 2 - (textHeight * ROM_COUNT)) / 2;
-        SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, titleText, textColor);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(ROMdisplay.ttffont, titleText, textColor);
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(ROMdisplay.renderer, textSurface);
         int textWidth, textHeight;
         SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
@@ -86,7 +73,7 @@ int selectRom(void) {
                 textColor.b = 255;
                 textColor.a = 255;
             }
-            SDL_Surface* textSurface = TTF_RenderText_Solid(ttffont, roms[i], textColor);
+            SDL_Surface* textSurface = TTF_RenderText_Solid(ROMdisplay.ttffont, roms[i], textColor);
             SDL_Texture* textTexture = SDL_CreateTextureFromSurface(ROMdisplay.renderer, textSurface);
 
             int textWidth, textHeight;
@@ -113,7 +100,7 @@ int selectRom(void) {
         SDL_Delay(UPDATE60HZ);
     }
 
-    TTF_CloseFont(ttffont);
+    TTF_CloseFont(ROMdisplay.ttffont);
     TTF_Quit();
     SDL_DestroyRenderer(ROMdisplay.renderer);
     SDL_DestroyWindow(ROMdisplay.window);
