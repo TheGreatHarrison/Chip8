@@ -15,10 +15,8 @@ int main(void)
     uint32_t start_tick;
     uint32_t elapsedTime;
 
-    uint16_t cpuHz = 540;
-    uint16_t cpuCycles = cpuHz / 60; // Get this configurable in future or adjust for each game
-    int selectedROM;
-    selectedROM = selectRom();
+    uint16_t cpuCycles = CPUHZ / 60; // Get this configurable in future or adjust for each game
+    int selectedROM = selectRom();
 
     // Initialize the display
     if (display_init(&display, "Chip-8", 0) != 0)

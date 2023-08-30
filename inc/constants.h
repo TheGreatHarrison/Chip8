@@ -19,6 +19,8 @@
 
 #define UPDATE60HZ 1000 / 60
 
+#define CPUHZ 540
+
 static const char* roms[ROM_COUNT] = {
     "Pong.rom",
     "Tetris.ch8",
