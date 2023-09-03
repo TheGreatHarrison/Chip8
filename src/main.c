@@ -7,7 +7,6 @@
 #include <SDL.h>
 #include <stdint.h>
 
-
 int main(void)
 {
     // Display init
@@ -26,14 +25,14 @@ int main(void)
 
     // CPU int
     struct cpu cpu;
-    if (cpuInit(&cpu, (roms[selectedROM])) != 0) // roms[selectedROM]
+    if (cpuInit(&cpu, (roms[selectedROM])) != 0)
     {
         return 1; // cpu init failed
     }
 
     int running = 1;
 
-    while (running) 
+    while (running)
     {
         uint32_t start_tick = SDL_GetTicks();
         for (int i=0; i < cpuCycles; i++)
@@ -42,8 +41,10 @@ int main(void)
         }
 
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+        while (SDL_PollEvent(&event)) 
+        {
+            if (event.type == SDL_QUIT) 
+            {
                 running = 0; // Set running to false to exit the loop on window close
             }
         }

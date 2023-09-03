@@ -21,7 +21,8 @@
 
 #define CPUHZ 540
 
-static const char* roms[ROM_COUNT] = {
+static const char* roms[ROM_COUNT] = 
+{
     "Pong.rom",
     "Tetris.ch8",
     "SpaceInvaders.ch8", 
@@ -29,7 +30,8 @@ static const char* roms[ROM_COUNT] = {
     "flightrunner.ch8"
 };
 
-static const uint8_t font[80] = {
+static const uint8_t font[80] = 
+{
   0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
   0x20, 0x60, 0x20, 0x20, 0x70, // 1
   0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2

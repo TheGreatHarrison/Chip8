@@ -5,7 +5,8 @@
 #include "constants.h"
 
 // Function to create a test pattern
-void createTestPattern(uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT]) {
+void createTestPattern(uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT]) 
+{
     for (int y = 0; y < SCREEN_HEIGHT; y++) {
         for (int x = 0; x < SCREEN_WIDTH; x++) {
             // Generate a gradient pattern using RGB values
@@ -19,13 +20,15 @@ void createTestPattern(uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT]) {
     }
 }
 
-int main(void) {
+int main(void) 
+{
     struct display display;
     uint32_t pixels[SCREEN_WIDTH * SCREEN_HEIGHT];
     int running = 1;
 
     // Initialize the display
-    if (display_init(&display) != 0) {
+    if (display_init(&display) != 0) 
+    {
         return 1;
     }
 
@@ -33,10 +36,13 @@ int main(void) {
     createTestPattern(pixels);
 
     // Main loop
-    while (running) {
+    while (running) 
+    {
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+        while (SDL_PollEvent(&event)) 
+        {
+            if (event.type == SDL_QUIT) 
+            {
                 running = 0; // Set running to false to exit the loop on window close
             }
         }

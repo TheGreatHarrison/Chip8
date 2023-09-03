@@ -55,7 +55,8 @@ void subtractCarry(struct cpu* cpu, uint8_t vx, uint8_t vy)
     if ( vx > vy )
     {
         cpu->v[0xF] = 1;
-    } else {
+    } else 
+    {
         cpu->v[0xF] = 0;
     }
 
@@ -108,7 +109,8 @@ void addtoIndex(struct cpu* cpu, uint8_t vx)
     if (cpu->i+vx > 0xFFF || cpu->i+vx < 0x1000)
     {
         cpu->v[0xF] = 1; // over flow
-    } else {
+    } else 
+    {
         cpu->v[0xF] = 0;
     }
 

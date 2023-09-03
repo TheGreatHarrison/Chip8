@@ -4,7 +4,8 @@
 
 int display_check_error(char* name, void* pointer) 
 {
-  if (!pointer) {
+  if (!pointer) 
+  {
     fprintf(stderr, "Could not create %s: %s\n", name, SDL_GetError());
     return -1;
   }
