@@ -2,12 +2,12 @@
 Chip-8 Interpreter - 
 Requires SDL2
 Currently:
-- Loads inbuilt ROM
-- Uses preset settings
-- Plays ROM - works well
+- Loads built in ROM.
+- Uses preset settings.
+- Plays ROM - works well.
 
 ToDo:
-Build Load up screen
+Build Load up screen.
 Set certain settings depending on the selected ROM
    Cpu speed
    Certain Instructions
