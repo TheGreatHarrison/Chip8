@@ -1,3 +1,3 @@
 ToDo:
     Clean up  rom selection
-    Make speed configurable
+    Make speed configurable per ROM (game)
